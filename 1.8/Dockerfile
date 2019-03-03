@@ -1,9 +1,11 @@
-FROM php:7-alpine
+FROM php:7.2-alpine
 
-RUN apk add --no-cache --virtual .composer-rundeps git subversion openssh mercurial tini bash patch make zip unzip coreutils \
+# RUN apk add --no-cache libpng libpng-dev && docker-php-ext-install gd && apk del libpng-dev
+
+RUN apk add --no-cache --virtual .composer-rundeps git subversion openssh mercurial tini bash patch make zip unzip coreutils libpng libpng-dev \
  && apk add --no-cache --virtual .build-deps zlib-dev libzip-dev \
  && docker-php-ext-configure zip --with-libzip \
- && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) zip opcache \
+ && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) zip opcache gd \
  && runDeps="$( \
     scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
       | tr ',' '\n' \
