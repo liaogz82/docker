@@ -1,7 +1,5 @@
 FROM php:7.2-alpine
 
-# RUN apk add --no-cache libpng libpng-dev && docker-php-ext-install gd && apk del libpng-dev
-
 RUN apk add --no-cache --virtual .composer-rundeps git subversion openssh mercurial tini bash patch make zip unzip coreutils libpng libpng-dev \
  && apk add --no-cache --virtual .build-deps zlib-dev libzip-dev \
  && docker-php-ext-configure zip --with-libzip \
